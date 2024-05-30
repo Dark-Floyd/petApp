@@ -44,5 +44,5 @@ class UserAdmin(BaseUserAdmin):
     
     
 admin.site.register(models.User, UserAdmin)
-admin.site.Register(models.Pet)
+admin.site.register(models.Pet)
 #without useradmin it wont affect the admin page

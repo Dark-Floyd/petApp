@@ -34,10 +34,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    
+    bio = models.TextField(blank=True)
+    pets_adopted = models.ManyToManyField('Pet', related_name='adopters', blank=True)
+
     objects = UserManager()
     
     USERNAME_FIELD = 'email'
+
 
 
 class Pet(models.Model):
@@ -48,6 +51,9 @@ class Pet(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='pets')
-
+    is_adopted = models.BooleanField(default=False)
+    adopted_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='adopted_pets')
+    img = models.ImageField(upload_to='pet_images/', blank=True, null=True)
+      
     def __str__(self):
         return self.name
